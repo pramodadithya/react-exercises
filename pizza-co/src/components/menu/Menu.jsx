@@ -1,3 +1,4 @@
+import PizzaList from "../pizza-list/PizzaList";
 import "./Menu.css";
 
 function Menu({ menuitems = [] }) {
@@ -12,7 +13,7 @@ function Menu({ menuitems = [] }) {
           all delicious.
         </p>
       </header>
-      <article></article>
+      <PizzaList pizzas={menuitems} />
     </main>
   );
 }
