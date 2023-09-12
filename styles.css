@@ -1,0 +1,72 @@
+/*
+Colors
+
+Primary-#087ea4
+lightest - #e6f2f6
+
+Grey- #021921
+
+*/
+
+@import url("https://fonts.googleapis.com/css2?family=Lemonada:wght@300;400;500;600;700&family=Roboto:ital,wght@0,100;0,300;1,100;1,300&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+}
+
+body {
+  font-family: "Lemonada", cursive;
+  color: #021921;
+  background-color: #e6f2f6;
+  border-bottom: 1rem solid #087ea4;
+  height: 100vh;
+}
+
+.header {
+  background-color: #087ea4;
+  color: #e6f2f6;
+  display: flex;
+  padding: 1.6rem 3.2rem;
+}
+
+.logo {
+  font-size: 2rem;
+}
+
+.container {
+  width: 80rem;
+  margin: 0 auto;
+}
+
+.main-article {
+  padding: 0.8rem 1.6rem;
+}
+
+.main-article section {
+  margin-bottom: 2.4rem;
+}
+
+.main-article-heading {
+  font-size: 3.2rem;
+  font-weight: 300;
+}
+
+.summary,
+.details {
+  font-size: 1.2rem;
+  font-weight: 300;
+}
+
+.details-outer-list {
+  margin-left: 3.2rem;
+}
+
+.details-inner-list {
+  margin-left: 3.2rem;
+}
