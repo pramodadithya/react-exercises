@@ -1,9 +1,10 @@
 import "./App.css";
+import Header from "./header/Header";
 
 function App() {
   return (
     <div className="container">
-      <header>HEADER goes Here</header>
+      <Header />
       <main> MAIN SECTION</main>
       <footer>FOOTER COMPONENT</footer>
     </div>
