@@ -3,6 +3,7 @@ import "./App.css";
 import AddItemForm from "./add-item-form/AddItemForm";
 import Header from "./header/Header";
 import PackageList from "./package-list/PackageList";
+import Footer from "./footer/Footer";
 
 function App() {
   const [items, setItems] = useState([]);
@@ -16,7 +17,6 @@ function App() {
   }
 
   function handlePackedToggle(id) {
-    console.log(id);
     setItems((items) =>
       items.map((item) =>
         item.id === id ? { ...item, packed: !item.packed } : { ...item }
@@ -38,6 +38,7 @@ function App() {
         onPackedToggle={handlePackedToggle}
         onClear={handleClearList}
       />
+      <Footer packagelist={items} />
     </main>
   );
 }
