@@ -24,6 +24,10 @@ function App() {
     );
   }
 
+  function handleClearList() {
+    setItems([]);
+  }
+
   return (
     <main className="app">
       <Header />
@@ -32,6 +36,7 @@ function App() {
         packagelist={items}
         onRemove={handleRemveItem}
         onPackedToggle={handlePackedToggle}
+        onClear={handleClearList}
       />
     </main>
   );

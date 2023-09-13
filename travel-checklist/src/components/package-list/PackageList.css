@@ -18,3 +18,21 @@
   justify-content: center;
   align-content: start;
 }
+
+.actions {
+  display: flex;
+  gap: 1.2rem;
+}
+
+.actions-select,
+.actions-button {
+  background-color: #ffebb3;
+  color: #5a3e2b;
+  font-family: inherit;
+  border: none;
+  border-radius: 10rem;
+  padding: 1.2rem 3.2rem;
+  font-weight: 700;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
