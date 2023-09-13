@@ -1,7 +1,12 @@
 import "./App.css";
+import Header from "./header/Header";
 
 function App() {
-  return <div>Travel Check List App</div>;
+  return (
+    <main className="app">
+      <Header />
+    </main>
+  );
 }
 
 export default App;

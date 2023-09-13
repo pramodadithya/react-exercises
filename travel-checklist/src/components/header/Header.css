@@ -1,0 +1,16 @@
+.header {
+  display: flex;
+  padding: 2.4rem 0;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4a226;
+}
+
+.header-title {
+  font-family: "Monoton";
+  font-size: 8rem;
+  text-transform: uppercase;
+  font-weight: 400;
+  letter-spacing: -5px;
+  word-spacing: 3rem;
+}
