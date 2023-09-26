@@ -4,7 +4,7 @@ import Logo from "./logo/Logo";
 import NumResults from "./num-results/NumResults";
 import SearchBox from "./search-box/SearchBox";
 import Loading from "./loading/Loading";
-import Error from "./error/Error";
+import ErrorMessage from "./error-message/ErrorMessage";
 import MovieList from "./movie-list/MovieList";
 import WatchedMovieBox from "./watched-movie-box/WatchedMovieBox";
 import "./App.css";
@@ -59,6 +59,18 @@ const tempWatchedData = [
 const API_KEY = "<ADD YOUR API KEY>";
 const API_URL = "http://www.omdbapi.com/";
 
+function debounce(func, delay) {
+  let functionCalled;
+  return function (...args) {
+    if (functionCalled) {
+      clearTimeout(functionCalled);
+    }
+    functionCalled = setTimeout(() => {
+      func(...args);
+    }, delay);
+  };
+}
+
 function App() {
   const [movieList, setMovieList] = useState(tempMovieData);
   const [watchedList, setWatchedList] = useState(tempWatchedData);
@@ -74,24 +86,28 @@ function App() {
         const response = await fetch(
           API_URL + `?apikey=${API_KEY}&s=${searchQuery}`
         );
+        if (!response.ok) {
+          throw new Error("Could not fetch movies.");
+        }
         const data = await response.json();
         if (data.Response === "False") {
-          setErrorMsg(data.Error);
+          throw new Error(data.Error);
         }
         setMovieList(data.Search);
-      } catch (e) {
-        setErrorMsg(e.message);
+      } catch (err) {
+        console.log(err);
+        setErrorMsg(err.message);
       } finally {
         setLoading(false);
       }
     }
     if (searchQuery.length > 2) {
-      fetchMovies();
+      debounce(fetchMovies, 800)();
     }
     return () => {
       console.log("Clean Up");
     };
-  }, [searchQuery, setMovieList]);
+  }, [searchQuery]);
 
   const numResults = movieList ? movieList.length : 0;
 
@@ -105,7 +121,7 @@ function App() {
       <main className="main">
         <div className="box">
           {loading && <Loading />}
-          {errorMsg && <Error message={errorMsg} />}
+          {errorMsg && <ErrorMessage message={errorMsg} />}
           {!loading && !errorMsg && <MovieList movieList={movieList} />}
         </div>
         <div className="box">

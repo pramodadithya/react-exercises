@@ -1,0 +1,22 @@
+.movie {
+  display: flex;
+  align-items: center;
+  font-size: 1.6rem;
+  gap: 2.4rem;
+  padding: 1.6rem 3.2rem;
+  border-bottom: 1px solid var(--color-background-100);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.movie:hover {
+  background-color: var(--color-background-100);
+}
+
+.movie img {
+  width: 4rem;
+}
+
+.movie h3 {
+  font-size: 1.8rem;
+}
