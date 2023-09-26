@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import "./MovieDetail.css";
 import Loading from "../../loading/Loading";
 import ErrorMessage from "../../error-message/ErrorMessage";
+import StarRating from "../../star-rating/StarRating";
 
 const API_KEY = "<ADD YOUR API KEY>";
 const API_URL = "http://www.omdbapi.com/";
 
-export default function MovieDetail({ selectedMovieId }) {
+export default function MovieDetail({ selectedMovieId, onMovieClose }) {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [movie, setMovie] = useState({});
+  const [userRating, setUserRating] = useState(0);
+
   useEffect(() => {
     async function getMovieDetails() {
       setLoading(true);
@@ -56,7 +59,9 @@ export default function MovieDetail({ selectedMovieId }) {
       {!loading && !errorMsg && movie && (
         <>
           <header>
-            <button className="btn-back">&larr;</button>
+            <button className="btn-back" onClick={onMovieClose}>
+              &larr;
+            </button>
             <img src={poster} alt={`Poster of ${title}`} />
             <div className="movie-details-overview">
               <h2>{title}</h2>
@@ -70,7 +75,12 @@ export default function MovieDetail({ selectedMovieId }) {
             </div>
           </header>
           <section>
-            <div className="rating">Rating Widget</div>
+            <div className="rating">
+              <StarRating maxStars={10} size={24} onSetRating={setUserRating} />
+              {userRating > 0 && (
+                <button className="btn-add">Add to List</button>
+              )}
+            </div>
             <p>
               <em>{plot}</em>
             </p>

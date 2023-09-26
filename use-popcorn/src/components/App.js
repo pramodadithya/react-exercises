@@ -75,6 +75,10 @@ function App() {
     setSelectedMovie(foundMovie);
   }
 
+  function handleCloseDetail() {
+    setSelectedMovie(null);
+  }
+
   const numResults = movieList ? movieList.length : 0;
 
   return (
@@ -97,7 +101,10 @@ function App() {
         </div>
         <div className="box">
           {selectedMovie && (
-            <MovieDetail selectedMovieId={selectedMovie.imdbID} />
+            <MovieDetail
+              selectedMovieId={selectedMovie.imdbID}
+              onMovieClose={handleCloseDetail}
+            />
           )}
           {!selectedMovie && <WatchedMovieBox />}
         </div>
