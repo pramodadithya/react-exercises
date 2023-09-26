@@ -6,9 +6,10 @@ export default function Movie({
   Poster: poster,
   Year: year,
   imdbID,
+  onMovieSelect,
 }) {
   return (
-    <li className="movie">
+    <li className="movie" onClick={() => onMovieSelect(imdbID)}>
       <img src={poster} alt={title} />
       <div>
         <h3>{title}</h3>
