@@ -1,8 +1,13 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./header/Header";
 import Logo from "./logo/Logo";
 import NumResults from "./num-results/NumResults";
 import SearchBox from "./search-box/SearchBox";
+import Loading from "./loading/Loading";
+import Error from "./error/Error";
+import MovieList from "./movie-list/MovieList";
+import WatchedMovieBox from "./watched-movie-box/WatchedMovieBox";
+import "./App.css";
 
 const tempMovieData = [
   {
@@ -51,18 +56,63 @@ const tempWatchedData = [
   },
 ];
 
+const API_KEY = "<ADD YOUR API KEY>";
+const API_URL = "http://www.omdbapi.com/";
+
 function App() {
   const [movieList, setMovieList] = useState(tempMovieData);
   const [watchedList, setWatchedList] = useState(tempWatchedData);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  useEffect(() => {
+    async function fetchMovies() {
+      setLoading(true);
+      setErrorMsg("");
+      try {
+        const response = await fetch(
+          API_URL + `?apikey=${API_KEY}&s=${searchQuery}`
+        );
+        const data = await response.json();
+        if (data.Response === "False") {
+          setErrorMsg(data.Error);
+        }
+        setMovieList(data.Search);
+      } catch (e) {
+        setErrorMsg(e.message);
+      } finally {
+        setLoading(false);
+      }
+    }
+    if (searchQuery.length > 2) {
+      fetchMovies();
+    }
+    return () => {
+      console.log("Clean Up");
+    };
+  }, [searchQuery, setMovieList]);
 
   const numResults = movieList ? movieList.length : 0;
 
   return (
-    <Header>
-      <Logo />
-      <SearchBox />
-      <NumResults numResults={numResults} />
-    </Header>
+    <>
+      <Header>
+        <Logo />
+        <SearchBox searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+        <NumResults numResults={numResults} />
+      </Header>
+      <main className="main">
+        <div className="box">
+          {loading && <Loading />}
+          {errorMsg && <Error message={errorMsg} />}
+          {!loading && !errorMsg && <MovieList movieList={movieList} />}
+        </div>
+        <div className="box">
+          <WatchedMovieBox />
+        </div>
+      </main>
+    </>
   );
 }
 
