@@ -4,6 +4,7 @@ import Loading from "../../loading/Loading";
 import ErrorMessage from "../../error-message/ErrorMessage";
 import StarRating from "../../star-rating/StarRating";
 import { useMovieDetail } from "../../../hooks/useMovies";
+import { useKey } from "../../../hooks/useKey";
 
 export default function MovieDetail({
   selectedMovieId,
@@ -33,17 +34,7 @@ export default function MovieDetail({
     Genre: genre,
   } = movie;
 
-  useEffect(() => {
-    function callback(e) {
-      if (e.code === "Escape") {
-        onMovieClose();
-      }
-    }
-    document.addEventListener("keydown", callback);
-    return () => {
-      document.removeEventListener("keydown", callback);
-    };
-  }, []);
+  useKey("Escape", onMovieClose);
 
   useEffect(() => {
     if (!title) {
