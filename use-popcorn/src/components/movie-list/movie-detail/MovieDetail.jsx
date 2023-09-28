@@ -64,6 +64,18 @@ export default function MovieDetail({
   } = movie;
 
   useEffect(() => {
+    function callback(e) {
+      if (e.code === "Escape") {
+        onMovieClose();
+      }
+    }
+    document.addEventListener("keydown", callback);
+    return () => {
+      document.removeEventListener("keydown", callback);
+    };
+  }, []);
+
+  useEffect(() => {
     if (!title) {
       return;
     }
