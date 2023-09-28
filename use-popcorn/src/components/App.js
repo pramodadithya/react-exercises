@@ -65,7 +65,6 @@ function App() {
   }, [searchQuery]);
 
   function handleMovieSelect(imdbID) {
-    console.log(imdbID);
     if (selectedMovie?.imdbID === imdbID) {
       setSelectedMovie(null);
       return;
@@ -77,6 +76,15 @@ function App() {
 
   function handleCloseDetail() {
     setSelectedMovie(null);
+  }
+
+  function handleMovieAdd(movie) {
+    setWatchedList((pwl) => [...pwl, movie]);
+  }
+
+  function handleWatchedMovieDelete(imdbId) {
+    console.log(watchedList);
+    setWatchedList((wl) => wl.filter((wm) => wm.imdbID !== imdbId));
   }
 
   const numResults = movieList ? movieList.length : 0;
@@ -104,9 +112,16 @@ function App() {
             <MovieDetail
               selectedMovieId={selectedMovie.imdbID}
               onMovieClose={handleCloseDetail}
+              watchedList={watchedList}
+              onAddMovie={handleMovieAdd}
             />
           )}
-          {!selectedMovie && <WatchedMovieBox />}
+          {!selectedMovie && (
+            <WatchedMovieBox
+              watchedMovieList={watchedList}
+              onWatchedMovieDelete={handleWatchedMovieDelete}
+            />
+          )}
         </div>
       </main>
     </>

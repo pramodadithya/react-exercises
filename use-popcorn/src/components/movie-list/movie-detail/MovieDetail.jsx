@@ -7,10 +7,20 @@ import StarRating from "../../star-rating/StarRating";
 const API_KEY = "<ADD YOUR API KEY>";
 const API_URL = "http://www.omdbapi.com/";
 
-export default function MovieDetail({ selectedMovieId, onMovieClose }) {
+export default function MovieDetail({
+  selectedMovieId,
+  watchedList,
+  onMovieClose,
+  onAddMovie,
+}) {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState("");
   const [movie, setMovie] = useState({});
+
+  const watchedMovie = watchedList?.find(
+    (movie) => movie.imdbID === selectedMovieId
+  );
+
   const [userRating, setUserRating] = useState(0);
 
   useEffect(() => {
@@ -40,6 +50,7 @@ export default function MovieDetail({ selectedMovieId, onMovieClose }) {
   }, [selectedMovieId]);
 
   const {
+    imdbID,
     Title: title,
     Year: year,
     Poster: poster,
@@ -51,6 +62,25 @@ export default function MovieDetail({ selectedMovieId, onMovieClose }) {
     Director: director,
     Genre: genre,
   } = movie;
+
+  function handleMovieAdd() {
+    const newMovie = {
+      imdbID,
+      title,
+      year,
+      poster,
+      plot,
+      userRating,
+      imdbRating: +imdbRating,
+      released,
+      runtime: +runtime.split(" ").at(0),
+      actors,
+      director,
+      genre,
+    };
+    onAddMovie(newMovie);
+    onMovieClose();
+  }
 
   return (
     <div className="movie-details">
@@ -76,9 +106,21 @@ export default function MovieDetail({ selectedMovieId, onMovieClose }) {
           </header>
           <section>
             <div className="rating">
-              <StarRating maxStars={10} size={24} onSetRating={setUserRating} />
-              {userRating > 0 && (
-                <button className="btn-add">Add to List</button>
+              {watchedMovie ? (
+                <p>You already rated this movie {watchedMovie.userRating} ⭐</p>
+              ) : (
+                <>
+                  <StarRating
+                    maxStars={10}
+                    size={24}
+                    onSetRating={setUserRating}
+                  />
+                  {userRating > 0 && (
+                    <button className="btn-add" onClick={handleMovieAdd}>
+                      Add to List
+                    </button>
+                  )}
+                </>
               )}
             </div>
             <p>
