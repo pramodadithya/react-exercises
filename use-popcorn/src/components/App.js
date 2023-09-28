@@ -9,60 +9,15 @@ import MovieList from "./movie-list/MovieList";
 import WatchedMovieBox from "./watched-movie-box/WatchedMovieBox";
 import "./App.css";
 import MovieDetail from "./movie-list/movie-detail/MovieDetail";
-
-const API_KEY = "<ADD YOUR API KEY>";
-const API_URL = "http://www.omdbapi.com/";
-
-function debounce(func, delay) {
-  let functionCalled;
-  return function (...args) {
-    if (functionCalled) {
-      clearTimeout(functionCalled);
-    }
-    functionCalled = setTimeout(() => {
-      func(...args);
-    }, delay);
-  };
-}
+import { useMovies } from "../hooks/useMovies";
 
 function App() {
-  const [movieList, setMovieList] = useState([]);
   const [watchedList, setWatchedList] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [errorMsg, setErrorMsg] = useState("");
+
   const [selectedMovie, setSelectedMovie] = useState(null);
 
-  useEffect(() => {
-    async function fetchMovies() {
-      setLoading(true);
-      setErrorMsg("");
-      try {
-        const response = await fetch(
-          API_URL + `?apikey=${API_KEY}&s=${searchQuery}`
-        );
-        if (!response.ok) {
-          throw new Error("Could not fetch movies.");
-        }
-        const data = await response.json();
-        if (data.Response === "False") {
-          throw new Error(data.Error);
-        }
-        setMovieList(data.Search);
-      } catch (err) {
-        console.log(err);
-        setErrorMsg(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (searchQuery.length > 2) {
-      debounce(fetchMovies, 800)();
-    }
-    return () => {
-      console.log("Clean Up");
-    };
-  }, [searchQuery]);
+  const { movieList, loading, errorMsg } = useMovies(searchQuery, []);
 
   function handleMovieSelect(imdbID) {
     if (selectedMovie?.imdbID === imdbID) {
