@@ -63,6 +63,17 @@ export default function MovieDetail({
     Genre: genre,
   } = movie;
 
+  useEffect(() => {
+    if (!title) {
+      return;
+    }
+    document.title = `Movie | ${title}`;
+
+    return () => {
+      document.title = "usePopcorn";
+    };
+  }, [title]);
+
   function handleMovieAdd() {
     const newMovie = {
       imdbID,
